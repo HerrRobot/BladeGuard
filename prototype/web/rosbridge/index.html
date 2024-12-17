@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="heading">BladeGuard Midterm Demo:</h1>
+    <h2 class="heading">Controlling the Clamp Dispender</h2>
+
+    <div id="clamp_buttons_div">
+        <button class="clamp_button" id="dispense_button" onclick="publishMessage('MAX')">DISPENSE CLAMP</button>
+        <button class="clamp_button" id="load_button" onclick="publishMessage('MIN')">LOAD CLAMP</button>
+    </div>
+
+    <p>Current servo angle:</p>
+    <p id="servo_angle_p">0 degrees</p>
+
+    <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
+
+    <img src="./BLADEGUARD_LOGO.png" alt="BladeGuard Logo" height="256px">
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script> -->
+    <!-- <script src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script> -->
+     <script src="roslibjsScript.js"></script>
+
+    <script type="text/javascript" type="text/javascript">
+        // Our JavaScript code will go here
+        // Create ros object to communicate over your Rosbridge connection
+        const ros = new ROSLIB.Ros({ url: "ws://192.168.0.2:9090" });
+
+        // When the Rosbridge server connects, fill the span with id "status" with "successful"
+        ros.on("connection", () => {
+            document.getElementById("status").innerHTML = "successful";
+        });
+
+        // When the Rosbridge server experiences an error, fill the "status" span with the returned error
+        ros.on("error", (error) => {
+            document.getElementById("status").innerHTML = `errored out (${error})`;
+        });
+
+        // When the Rosbridge server shuts down, fill the "status" span with "closed"
+        ros.on("close", () => {
+            document.getElementById("status").innerHTML = "closed";
+        });
+
+        console.log("START")
+
+        // console.log(ROSLIB)
+
+        // Create a listener for /my_topic
+        const servo_angle_topic = new ROSLIB.Topic({
+            ros,
+            name: "/servo_angle",
+            messageType: "std_msgs/String",
+        });
+
+        const my_topic_publisher = new ROSLIB.Topic({
+            ros,
+            name: "/UI_clamp_dispenser_controlls",
+            messageType: "std_msgs/String"
+        })
+
+        function publishMessage(message) {
+            const ros_msg = new ROSLIB.Message({
+                data: message
+            })
+
+            my_topic_publisher.publish(ros_msg)
+        }
+
+        // When we receive a message on /my_topic, add its data as a list item to the "messages" ul
+        servo_angle_topic.subscribe((message) => {
+            console.log(message.data)
+            const p = document.getElementById("servo_angle_p");
+            p.innerHTML = parseInt(parseInt(message.data) * 110 / 180) + " degrees";
+        });
+    </script>
+</body>
+
+</html>
