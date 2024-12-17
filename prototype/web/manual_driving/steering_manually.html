@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Driving</title>
+</head>
+<body>
+
+    <h1 id="emergency_heading" style="display: none;">YOU HAVE EMERGENCY STOPPED THE ROBOT. REFRESH THE PAGE TO GO AGAIN.</h1>
+
+    <br>
+
+    <button id="connect">CONNECT TO ARDUINO</button>
+
+    <br>
+
+    <form action="return false" id="braking_mode_form">
+        <input onclick="setBrakeMode('BR')" type="radio" name="braking_mode_input" id="BRAKE" value="BR">
+        <label for="BRAKE">AUTO-BRAKE</label> <br>
+        <input onclick="setBrakeMode('N')" type="radio" name="braking_mode_input" id="NEUTRAL" value="N">
+        <label for="NEUTRAL">NEUTRAL</label>
+    </form>
+
+    <button style="background-color: red; margin-top: 50px; height: 100px; width: 200px; font-size: 30px; font-weight: 600;" onclick="emergencyStop()">EMERGENCY STOP</button>
+
+    <script src="serial.js"></script>
+    <script src="gradual_movement_improved.js"></script>
+    
+</body>
+</html>
