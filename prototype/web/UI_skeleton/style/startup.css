@@ -1,0 +1,17 @@
+.startup_main_div {
+    background-color: gray;
+
+    border-style:solid;
+    border-width: 2px;
+    border-radius: 10px;
+
+    width: 49.5%;
+}
+
+#page_div {
+    background-color: aquamarine;
+    height: 100vh;
+    display: flex;
+
+    justify-content: space-between;
+}
