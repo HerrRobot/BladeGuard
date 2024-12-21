@@ -1,17 +1,292 @@
-.startup_main_div {
-    background-color: gray;
+#main_div {
+    background-color: aquamarine;
+    height: 98vh;
+    display: flex;
+        
+    justify-content: space-between;
+    flex-direction: column;
+}
 
-    border-style:solid;
+.main_div_contents {
+    background-color: gray;
+    
+    border-style: solid;
     border-width: 2px;
     border-radius: 10px;
 
-    width: 49.5%;
+    width: 100%;
+    /* height: 49%; */
 }
 
-#page_div {
-    background-color: aquamarine;
-    height: 100vh;
+#cameras_div {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: 55%;
+}
+
+#control_panel_div {
+    height: 43.5%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.camera_feed {
+    display: block;
+
+    height: 100%;
+    width: 49.8%;
+
+    background-color: #304166;
+
+    margin: 0px;
+}
+
+.control_panel_contents {
+    background-color: blueviolet;
+    /* height: 32%; */
+}
+
+#control_panel_top {
+    height: 66%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#control_panel_left {
+    width: 30.5%;
+
+    display: flex;
+    flex-direction: column;
 
     justify-content: space-between;
+}
+
+#control_panel_right {
+    width: 69%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    background-color: plum;
+}
+
+#log_div {
+    height: 100%;
+    width: 78%;
+
+    background-color: cadetblue;
+
+    /* visibility: hidden; */
+}
+
+#buttons_and_sensors {
+    height: 100%;
+    width: 21%;
+        
+    background-color: cadetblue;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+}
+
+#log_sensor_buttons {
+    width: 70%;
+    height: 20%;
+
+    background-color: burlywood;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#sensor_values {
+    width: 100%;
+    height: 78%;
+
+    background-color: burlywood;
+
+    /* visibility: hidden; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#control_panel_bottom {
+    height: 32%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.control_panel_bottom_contents {
+    background-color: #BDD1FF;
+    height: 100%;
+    width: 49.75%;
+
+    border-radius: 20px;
+}
+
+#control_panel_actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+}
+
+.ctrl_pan_action {
+    border-right-color: #9cbaff;
+    border-right-style: solid;
+    border-right-width: 1px;
+
+    width: 16.67%;
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ctrl_pan_action:last-of-type {
+    border: 0px;
+}
+
+.ctrl_pan_action:hover {
+    background-color: #9cbaff;
+
+    cursor: pointer;
+}
+
+.ctrl_pan_action:first-of-type:hover {
+    background-color: #9cbaff;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.ctrl_pan_action:last-of-type:hover {
+    background-color: #9cbaff;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.ctrl_action_text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#control_panel_progress {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#progress_bar_inside {
+    height: 90%;
+    width: 8%;
+
+    margin-left: 0.8%;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+
+    background-color: #304166;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#progress_bar_percentage {
+    color: white;
+    font-size: 28pt;
+    
+    /* margin-right: 5%; */
+
+    text-align: center;
+}
+
+.control_panel_top_contents {
+    background-color: bisque;
+
+    height: 100%;
+}
+
+.ctrl_pan_left_contents {
+    background-color: purple;
+    /* height: 35%; */
+
+    border-width: 2px;
+    border-style: solid;
+
+    width: 40%;
+
+    margin-left: 2%;
+}
+
+.stop_start_button {
+    background-color: white;
+    border: none;
+}
+
+.stop_start_button:hover{
+    cursor: pointer;
+}
+
+.start_stop_button_img {
+    height: 50px;
+    display: block;
+}
+
+#manual_control_enable {
+    height: 35%;
+}
+
+#start_stop_buttons {
+    height: 22%;
+}
+
+.log_sensor_button {
+    background-color: #BDD1FF;
+    color: #304166;
+    border: none;
+
+    height: 25px;
+    width: 25px;
+
+    border-radius: 20px;
+}
+
+.log_sensor_button:hover {
+    cursor: pointer;
+}
+
+/* #log_sensor_buttons > button{
+    display: block;
+} */
+
+.log_sensors_button_group {
+    background-color: aqua;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#distance_sensor_main_label {
+    width: 100%;
+    /* background-color: #304166; */
+    text-align: center;
+    font-weight: bold;
 }

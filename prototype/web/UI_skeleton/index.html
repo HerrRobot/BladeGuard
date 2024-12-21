@@ -5,15 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BladeGuard</title>
     <link rel="stylesheet" href="style/startup.css">
+    <link rel="stylesheet" href="style/switch.css">
     <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
-    <!-- <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" /> -->
 <body>
-    <div id="page_div">
-        <div class="startup_main_div" id="startup_div_left">
-            
+    <div id="main_div">
+        <div class="main_div_contents" id="cameras_div">
+            <!-- <img class="camera_feed" id="camera_feed_left" src="https://192.168.0.2:5000/video_feed" alt="Video Feed 1">
+            <img class="camera_feed" id="camera_feed_right" src="https://192.168.0.2:5000/video_feed" alt="Video Feed 2"> -->
+
+            <img class="camera_feed" id="camera_feed_left" src="" alt="Video Feed 1">
+            <img class="camera_feed" id="camera_feed_right" src="" alt="Video Feed 2">
         </div>
-        <div class="startup_main_div" id="startup_div_right">
-            
+        <div class="main_div_contents" id="control_panel_div">
+            <div class="control_panel_contents" id="control_panel_top">
+                <div class="control_panel_top_contents" id="control_panel_left">
+                    <div class="ctrl_pan_left_contents" id="manual_control_enable">
+                        <p>Manual control (Off)</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="ctrl_pan_left_contents" id="start_stop_buttons">
+                        <button class="stop_start_button" id="play_button"><img class="start_stop_button_img" src="img/triangle_button.png" alt="play button"></button>
+                        <button class="stop_start_button" id="stop_button"><img class="start_stop_button_img" src="img/rectangle_button.png" alt="stop button"></button>
+                    </div>
+                </div>
+                <div class="control_panel_top_contents" id="control_panel_right">
+                    <div id="log_div">
+                        <p><strong>Event Log</strong></p>
+                        <p>> 12:51:32; Surface prepared;</p>
+                        <p>> 12:51:36; Started dispensing glue;</p>
+                    </div>
+                    <div id="buttons_and_sensors">
+                        <div id="log_sensor_buttons">
+                            <div class="log_sensors_button_group">
+                                <label for="log_enable_button"><strong>Log</strong></label>
+                                <br>
+                                <button id="log_enable_button" class="log_sensor_button">\\\</button>
+                            </div>
+
+                            <div class="log_sensors_button_group">
+                                <label for="sensors_enable_button"><strong>Sensors</strong></label>
+                                <br>
+                                <button id="sensors_enable_button" class="log_sensor_button">\\\</button>
+                            </div>
+                        </div>
+
+                        <div id="sensor_values">
+                            <p id="distance_sensor_main_label">Distance sensor readings:</p>
+                            <div class="sensor_values_container">
+                                <p>Right wall: </p>
+                                <p>Left wall: </p>
+                                <p>Ceiling: </p>
+                                <p>Root: </p>
+                            </div>
+
+                            <div class="sensor_values_container">
+                                <p>10.5cm</p>
+                                <p>11.0cm</p>
+                                <p>7.2cm</p>
+                                <p>4.1m</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="control_panel_contents" id="control_panel_bottom">
+                <div class="control_panel_bottom_contents" id="control_panel_actions">
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">SAND</p></div>
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">CLEAN</p></div>
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">GLUE BOX</p></div>
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">GLUE STAMP</p></div>
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">ACTION 5</p></div>
+                    <div class="ctrl_pan_action"><p class="ctrl_action_text">ACTION 6</p></div>
+                </div>
+                <div class="control_panel_bottom_contents" id="control_panel_progress">
+                    <div id="progress_bar_inside">
+                        <p id="progress_bar_percentage"><strong>8%</strong></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
