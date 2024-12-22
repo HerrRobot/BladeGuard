@@ -19,24 +19,62 @@
         <div class="main_div_contents" id="control_panel_div">
             <div class="control_panel_contents" id="control_panel_top">
                 <div class="control_panel_top_contents" id="control_panel_left">
-                    <div class="ctrl_pan_left_contents" id="manual_control_enable">
-                        <p>Manual control (Off)</p>
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
+                    <div class="manual_controls_and_wasd" id="manual_controls_enable_and_start_stop">
+                        <div class="ctrl_pan_left_contents" id="manual_control_enable">
+                            <p id="manual_control_label">Manual control (Off)</p>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                                            
+                        <div class="ctrl_pan_left_contents" id="start_stop_buttons">
+                            <button class="stop_start_button" id="play_button"><img class="start_stop_button_img" src="img/triangle_button.png"
+                                    alt="play button"></button>
+                            <button class="stop_start_button" id="stop_button"><img class="start_stop_button_img" src="img/rectangle_button.png"
+                                    alt="stop button"></button>
+                        </div>
                     </div>
+                    <div class="manual_controls_and_wasd" id="wasd_container">
+                        <div id="wasd_top" class="wasd_elements_container">
+                            <div class="wasd_div_individual">
+                                <div class="wasd_square_div">
+                                    <p class="wasd_p">W</p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="ctrl_pan_left_contents" id="start_stop_buttons">
-                        <button class="stop_start_button" id="play_button"><img class="start_stop_button_img" src="img/triangle_button.png" alt="play button"></button>
-                        <button class="stop_start_button" id="stop_button"><img class="start_stop_button_img" src="img/rectangle_button.png" alt="stop button"></button>
+                        <div id="wasd_bottom" class="wasd_elements_container">
+                            <div class="wasd_div_individual">
+                                <div class="wasd_square_div">
+                                    <p class="wasd_p">A</p>
+                                </div>
+                            </div>
+                            <div class="wasd_div_individual">
+                                <div class="wasd_square_div">
+                                    <p class="wasd_p">S</p>
+                                </div>
+                            </div>
+                            <div class="wasd_div_individual">
+                                <div class="wasd_square_div">
+                                    <p class="wasd_p">D</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="control_panel_top_contents" id="control_panel_right">
                     <div id="log_div">
-                        <p><strong>Event Log</strong></p>
-                        <p>> 12:51:32; Surface prepared;</p>
-                        <p>> 12:51:36; Started dispensing glue;</p>
+                        <div id="log_content_div">
+                            <p><strong>Event Log</strong></p>
+                            <p>> 12:51:32; Surface prepared;</p>
+                            <p>> 12:51:36; Started dispensing glue;</p>
+                            <p>> 12:52:11; Lowering the box;</p>
+                            <p>> 12:53:41; Finished installing box;</p>
+                            <p>> 12:54:26; Installing clamp #1;</p>
+                            <p>> 12:54:56; Installing clamp #2;</p>
+                            <p>> 12:55:16; Installing clamp #3;</p>
+                        </div>
                     </div>
                     <div id="buttons_and_sensors">
                         <div id="log_sensor_buttons">
@@ -54,7 +92,7 @@
                         </div>
 
                         <div id="sensor_values">
-                            <p id="distance_sensor_main_label">Distance sensor readings:</p>
+                            <p id="distance_sensor_main_label">Distances:</p>
                             <div class="sensor_values_container">
                                 <p>Right wall: </p>
                                 <p>Left wall: </p>

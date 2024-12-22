@@ -1,5 +1,5 @@
 #main_div {
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     height: 98vh;
     display: flex;
         
@@ -8,11 +8,11 @@
 }
 
 .main_div_contents {
-    background-color: gray;
+    /* background-color: gray; */
     
-    border-style: solid;
+    /* border-style: solid;
     border-width: 2px;
-    border-radius: 10px;
+    border-radius: 10px; */
 
     width: 100%;
     /* height: 49%; */
@@ -45,11 +45,6 @@
     margin: 0px;
 }
 
-.control_panel_contents {
-    background-color: blueviolet;
-    /* height: 32%; */
-}
-
 #control_panel_top {
     height: 66%;
 
@@ -62,9 +57,78 @@
     width: 30.5%;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     justify-content: space-between;
+
+    /* background-color: aqua; */
+}
+
+#manual_controls_enable_and_start_stop {
+    display: flex;
+    flex-direction: column;
+        
+    justify-content: space-between;
+
+    /* background-color: bisque; */
+}
+
+.manual_controls_and_wasd {
+    height: 100%;
+    width: 70%;
+}
+
+#wasd_container {
+    /* background-color: blue; */
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    /* visibility: hidden; */
+}
+
+.wasd_elements_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    /* background-color: aqua; */
+    height: 30%;
+}
+
+.wasd_div_individual {
+    /* aspect-ratio: 1/1; */
+    width: 25%;
+    /* background-color: brown; */
+    /* text-align: center; */
+    margin: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .wasd_p {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-height: 100%;
+
+    background-color: aquamarine;
+} */
+
+.wasd_square_div {
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    height: 100%;
+        
+    background-color: #BDD1FF;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #control_panel_right {
@@ -74,23 +138,33 @@
     flex-direction: row;
     justify-content: space-between;
 
-    background-color: plum;
+    /* background-color: plum; */
 }
 
 #log_div {
     height: 100%;
-    width: 78%;
+    width: 70%;
 
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
 
     /* visibility: hidden; */
 }
 
+#log_content_div {
+    width: 100%;
+    height: 90%;
+
+    background-color: #BDD1FF;
+    padding: 5px;
+
+    overflow-y: auto;
+}
+
 #buttons_and_sensors {
     height: 100%;
-    width: 21%;
+    width: 29%;
         
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
 
     display: flex;
     flex-direction: column;
@@ -99,10 +173,10 @@
 }
 
 #log_sensor_buttons {
-    width: 70%;
+    width: 50%;
     height: 20%;
 
-    background-color: burlywood;
+    /* background-color: burlywood; */
 
     display: flex;
     flex-direction: row;
@@ -113,7 +187,7 @@
     width: 100%;
     height: 78%;
 
-    background-color: burlywood;
+    /* background-color: burlywood; */
 
     /* visibility: hidden; */
 
@@ -218,19 +292,19 @@
 }
 
 .control_panel_top_contents {
-    background-color: bisque;
+    /* background-color: bisque; */
 
     height: 100%;
 }
 
 .ctrl_pan_left_contents {
-    background-color: purple;
+    /* background-color: purple; */
     /* height: 35%; */
 
-    border-width: 2px;
-    border-style: solid;
+    /* border-width: 2px;
+    border-style: solid; */
 
-    width: 40%;
+    width: 100%;
 
     margin-left: 2%;
 }
@@ -272,12 +346,8 @@
     cursor: pointer;
 }
 
-/* #log_sensor_buttons > button{
-    display: block;
-} */
-
 .log_sensors_button_group {
-    background-color: aqua;
+    /* background-color: aqua; */
 
     display: flex;
     flex-direction: column;
@@ -289,4 +359,9 @@
     /* background-color: #304166; */
     text-align: center;
     font-weight: bold;
+}
+
+p {
+    margin: 2px;
+    padding: 0px;
 }
