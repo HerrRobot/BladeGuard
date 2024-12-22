@@ -195,6 +195,7 @@
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 #control_panel_bottom {
@@ -307,6 +308,9 @@
     width: 100%;
 
     margin-left: 2%;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .stop_start_button {
@@ -364,4 +368,8 @@
 p {
     margin: 2px;
     padding: 0px;
+}
+
+.log_sensors_button_group > label {
+    margin-bottom: 4px;
 }
