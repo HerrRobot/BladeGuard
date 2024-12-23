@@ -23,7 +23,7 @@
                         <div class="ctrl_pan_left_contents" id="manual_control_enable">
                             <p id="manual_control_label">Manual control (Off)</p>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input checked="false" id="manual_control_toggle_checkbox" onclick="handleManualControlToggle()" type="checkbox">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -38,7 +38,7 @@
                     <div class="manual_controls_and_wasd" id="wasd_container">
                         <div id="wasd_top" class="wasd_elements_container">
                             <div class="wasd_div_individual">
-                                <div class="wasd_square_div">
+                                <div id="w_key_wrapper" class="wasd_square_div">
                                     <p class="wasd_p">W</p>
                                 </div>
                             </div>
@@ -46,17 +46,17 @@
 
                         <div id="wasd_bottom" class="wasd_elements_container">
                             <div class="wasd_div_individual">
-                                <div class="wasd_square_div">
+                                <div id="a_key_wrapper" class="wasd_square_div">
                                     <p class="wasd_p">A</p>
                                 </div>
                             </div>
                             <div class="wasd_div_individual">
-                                <div class="wasd_square_div">
+                                <div id="s_key_wrapper" class="wasd_square_div">
                                     <p class="wasd_p">S</p>
                                 </div>
                             </div>
                             <div class="wasd_div_individual">
-                                <div class="wasd_square_div">
+                                <div id="d_key_wrapper" class="wasd_square_div">
                                     <p class="wasd_p">D</p>
                                 </div>
                             </div>
@@ -81,13 +81,13 @@
                             <div class="log_sensors_button_group">
                                 <label for="log_enable_button"><strong>Log</strong></label>
                                 <br>
-                                <button id="log_enable_button" class="log_sensor_button">\\\</button>
+                                <button onclick="handleLogButtonPress()" id="log_enable_button" class="log_sensor_button">///</button>
                             </div>
 
                             <div class="log_sensors_button_group">
                                 <label for="sensors_enable_button"><strong>Sensors</strong></label>
                                 <br>
-                                <button id="sensors_enable_button" class="log_sensor_button">\\\</button>
+                                <button onclick="hanldeSensorsButtonPress()" id="sensors_enable_button" class="log_sensor_button">///</button>
                             </div>
                         </div>
 
@@ -112,12 +112,12 @@
             </div>
             <div class="control_panel_contents" id="control_panel_bottom">
                 <div class="control_panel_bottom_contents" id="control_panel_actions">
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">SAND</p></div>
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">CLEAN</p></div>
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">GLUE BOX</p></div>
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">GLUE STAMP</p></div>
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">ACTION 5</p></div>
-                    <div class="ctrl_pan_action"><p class="ctrl_action_text">ACTION 6</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">SAND</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">CLEAN</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">GLUE BOX</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">GLUE STAMP</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">ACTION 5</p></div>
+                    <div class="ctrl_pan_action ctrl_pan_action_disable"><p class="ctrl_action_text">ACTION 6</p></div>
                 </div>
                 <div class="control_panel_bottom_contents" id="control_panel_progress">
                     <div id="progress_bar_inside">
@@ -127,5 +127,7 @@
             </div>
         </div>
     </div>
+
+    <script src="script/mainPageReactive.js"></script>
 </body>
 </html>

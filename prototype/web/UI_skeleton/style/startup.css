@@ -86,7 +86,7 @@
     flex-direction: column;
     justify-content: center;
 
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
 .wasd_elements_container {
@@ -218,6 +218,8 @@
     display: flex;
     flex-direction: row;
     justify-content: baseline;
+
+    opacity: calc(0.5);
 }
 
 .ctrl_pan_action {
@@ -234,23 +236,27 @@
     justify-content: center;
 }
 
+.ctrl_pan_action_disable {
+    cursor:not-allowed;
+}
+
 .ctrl_pan_action:last-of-type {
     border: 0px;
 }
 
-.ctrl_pan_action:hover {
+.ctrl_pan_action_hover:hover {
     background-color: #9cbaff;
 
     cursor: pointer;
 }
 
-.ctrl_pan_action:first-of-type:hover {
+.ctrl_pan_action_hover:first-of-type:hover {
     background-color: #9cbaff;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
 
-.ctrl_pan_action:last-of-type:hover {
+.ctrl_pan_action_hover:last-of-type:hover {
     background-color: #9cbaff;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -337,7 +343,7 @@
 
 .log_sensor_button {
     background-color: #BDD1FF;
-    color: #304166;
+    color: #EE4932;
     border: none;
 
     height: 25px;
