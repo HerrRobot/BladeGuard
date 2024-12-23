@@ -275,7 +275,7 @@
 
 #progress_bar_inside {
     height: 90%;
-    width: 8%;
+    width: 1%;
 
     margin-left: 0.8%;
 
@@ -285,13 +285,22 @@
     background-color: #304166;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress_bar_text {
+    color: white;
+    font-size: 28pt;
+    font-weight: bold;
+
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 #progress_bar_percentage {
     color: white;
-    font-size: 28pt;
     
     /* margin-right: 5%; */
 

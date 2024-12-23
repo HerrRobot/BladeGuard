@@ -101,10 +101,10 @@
                             </div>
 
                             <div class="sensor_values_container">
-                                <p>10.5cm</p>
-                                <p>11.0cm</p>
-                                <p>7.2cm</p>
-                                <p>4.1m</p>
+                                <p id="right_wall_sensor_value">10.5cm</p>
+                                <p id="left_wall_sensor_value">11.0cm</p>
+                                <p id="ceiling_sensor_value">7.2cm</p>
+                                <p id="root_sensor_value">4.1m</p>
                             </div>
                         </div>
                     </div>
@@ -121,13 +121,17 @@
                 </div>
                 <div class="control_panel_bottom_contents" id="control_panel_progress">
                     <div id="progress_bar_inside">
-                        <p id="progress_bar_percentage"><strong>8%</strong></p>
+                        <p class="progress_bar_text" id="progress_bar_label">Progress:</p>
+                        <p class="progress_bar_text" id="progress_bar_percentage"><strong id="progress_bar_percentage_value">1%</strong></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script/mainPageReactive.js"></script>
+    <script src="script/mainPageReactiveUI.js"></script>
+    <script src="script/displayingData.js"></script>
+
+    <script src="script/testScript.js"></script>
 </body>
 </html>
