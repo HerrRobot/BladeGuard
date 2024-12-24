@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'serial_executor=motors.serial_executor:main'
+            'serial_executor=motors.serial_executor:main',
+            'test_sensors=motors.UI_testing:main'
         ],
     },
 )
