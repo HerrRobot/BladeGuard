@@ -55,6 +55,25 @@ log_status_topic.subscribe((message) => {
 })
 
 /**
+ * Create logger service.
+ * FOR THE CUSTOM LOG_MESSAGE TO WORK, ONE MUST RUN `source BladeGuard/prototype/ros/motor_controls_ws/install/setup.bash` before 
+ * running the rosbridge server
+ */
+const log_message_server = new ROSLIB.Service({
+    ros,
+    name: '/logger_service',
+    serviceType: 'service_interfaces/LogMessage'
+})
+
+// advertise the service (switch from client to server)
+// when the service is called, display the message in the logger
+log_message_server.advertise((request, response) => {
+    addEntryToLog(`${request.timestamp}; ${request.message}`)
+
+    return response
+})
+
+/**
  * Parse the input string from the /distance_sensors topic and return an object containing the individual sensor values as strings,
  * rounded to two decimal places.
  * @param {String} sensorDataString string in the form 'leftDistance;rightDistance;ceilingDistance;rootDistance'

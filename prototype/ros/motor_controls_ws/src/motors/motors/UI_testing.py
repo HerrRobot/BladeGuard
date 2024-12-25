@@ -3,6 +3,10 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
+from service_interfaces.srv import LogMessage
+
+from datetime import datetime
+
 class UI_TestingNode(Node):
     def __init__(self):
         super().__init__("UI_TestingNode")
@@ -14,7 +18,11 @@ class UI_TestingNode(Node):
         self.root = 0.2
 
         self.timer_period = 0.5
-        self.timer = self.create_timer(self.timer_period, self.publishSensorData)
+        self.timer = self.create_timer(self.timer_period, self.publishLogMessage)
+
+        self.client = self.create_client(LogMessage, '/logger_service')
+
+        self.messageID = 0
 
 
     def publishSensorData(self):
@@ -27,6 +35,16 @@ class UI_TestingNode(Node):
 
         message.data = f"{self.left};{self.right};{self.ceiling};{self.root}"
         self._publisher.publish(message)
+
+
+    def publishLogMessage(self):
+        request = LogMessage.Request()
+
+        request.timestamp = datetime.now().strftime('%H:%M:%S')
+        request.message = f"Log message #{self.messageID}"
+        self.messageID += 1
+
+        self.client.call_async(request)
 
         
 
