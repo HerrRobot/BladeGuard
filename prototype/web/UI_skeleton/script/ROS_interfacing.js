@@ -70,7 +70,16 @@ const log_message_server = new ROSLIB.Service({
 log_message_server.advertise((request, response) => {
     addEntryToLog(`${request.timestamp}; ${request.message}`)
 
-    return response
+    return true // needs to be a boolean, otherwise rosbridge complains
+})
+
+/**
+ * Client for sending a manual anction command to the robot
+ */
+const manual_action_client = new ROSLIB.Service({
+    ros,
+    name: '/manual_action_service',
+    serviceType: 'service_interfaces/ManualAction'
 })
 
 /**
@@ -87,4 +96,12 @@ function parseSensorDataFromROSTopic(sensorDataString) {
         ceiling: parseFloat(split[2]).toFixed(2),
         root: parseFloat(split[3]).toFixed(2)
     }
+}
+
+/**
+ * Given the name of a manual action, call the manual action service with this action
+ * @param {*} action_name name of the action to perform
+ */
+function sendActionToRobot(action_name) {
+    manual_action_client.callService({ action_name }, handleManualActionCompletion);
 }

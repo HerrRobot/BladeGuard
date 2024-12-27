@@ -4,8 +4,11 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 from service_interfaces.srv import LogMessage
+from service_interfaces.srv import ManualAction
 
 from datetime import datetime
+
+import time
 
 class UI_TestingNode(Node):
     def __init__(self):
@@ -22,7 +25,21 @@ class UI_TestingNode(Node):
 
         self.client = self.create_client(LogMessage, '/logger_service')
 
+        # self.manual_action_server = self.create_service(ManualAction, '/manual_action_service', self.manual_action_callback)
+
         self.messageID = 0
+
+
+    def manual_action_callback(self, request, response):
+        self.get_logger().info(f'Got action {request.action_name}. Waiting 5 seconds')
+
+        time.sleep(5)
+
+        response.success = True
+        response.action_name = request.action_name
+
+        return response
+
 
 
     def publishSensorData(self):

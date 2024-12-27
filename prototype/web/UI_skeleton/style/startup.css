@@ -244,6 +244,16 @@
     border: 0px;
 }
 
+.ctrl_pan_action:first-of-type {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.ctrl_pan_action:last-of-type {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
 .ctrl_pan_action_hover:hover {
     background-color: #9cbaff;
 
