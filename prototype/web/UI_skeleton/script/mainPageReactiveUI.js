@@ -9,9 +9,13 @@ const actionFailedRed = '#550000';
 const opacityEnabled = 1;
 const opacityDisabled = 0.5;
 
+const actionDuration = 5000; //ms
+
 const drivingKeys = new Set(['w', 'a', 's', 'd']);
 const performedActions = new Set();
 const actionsInProgress = new Set();
+
+let actionPgrogressBarInterval;
 
 const WASDKeysContainer = document.getElementById('wasd_container');
 const controlPanelActionsContainer = document.getElementById('control_panel_actions');
@@ -29,6 +33,12 @@ const glueBoxAction = document.getElementById('glue_box_action');
 const glueStampAction = document.getElementById('glue_stamp_action');
 const action5Action = document.getElementById('action_5_action');
 const action6Action = document.getElementById('action_6_action');
+const sandActionProgressBar = document.getElementById('sand_action_progress_bar_body');
+const cleanActionProgressBar = document.getElementById('clean_action_progress_bar_body');
+const glueBoxActionProgressBar = document.getElementById('glue_box_action_progress_bar_body');
+const glueStampActionProgressBar = document.getElementById('glue_stamp_action_progress_bar_body');
+const action5ActionProgressBar = document.getElementById('action_5_action_progress_bar_body');
+const action6ActionProgressBar = document.getElementById('action_6_action_progress_bar_body');
 
 manualControlToggleCheckbox.checked = false;
 
@@ -98,7 +108,7 @@ function hanldeSensorsButtonPress() {
  * If the robot is in autonomous operation mode, the function returns imediatelly.
  * The action is not performed if another action is in progress, or if the action has already been performed.
  * Actions in progress are coloured gray, while finished actions are green.
- * @param {*} actionName name of the action to perform
+ * @param {String} actionName name of the action to perform
  * @returns nothing
  */
 function handleActionPress(actionName) {
@@ -107,15 +117,17 @@ function handleActionPress(actionName) {
     }
 
     if (actionsInProgress.size > 0) {
-        alert("Action in progress");
+        alert("An action is currently in progress. You must wait for it to complete or time out.");
         return;
     }
 
-    // disables performing the same action twice
+    // alert the user if the action has been performed already
     if (performedActions.has(actionName)) {
-        // remove this line
-        alert("already pressed this");
-        return;
+        if(!confirm(`${actionName.replaceAll("_", " ")} action has already been completed. Are you sure you want to re-do it?`)){
+            return;
+        }
+
+        performedActions.delete(actionName);
     }
 
     actionsInProgress.add(actionName);
@@ -131,6 +143,8 @@ function handleActionPress(actionName) {
     actionElement.style.opacity = 0.5;
 
     sendActionToRobot(actionName);
+
+    startActionProgressBar(actionName);
 }
 
 /**
@@ -158,6 +172,100 @@ function selectActionElement(actionName) {
 }
 
 /**
+ * Animates a progress bar for the action being currently performed.
+ * The progress bar is only an _estimate_ of the actual progress, as it is purely based on the elapsed time since the start of the action,
+ * and the time the action is believed to take.
+ * @param {String} actionName The name of the action being performed
+ * @returns nothing
+ */
+function startActionProgressBar(actionName) {
+    const { actionDuration, progressBarBody } = selectActionDurationAndPgrogressBarElement(actionName);
+
+    if (!progressBarBody) {
+        return;
+    }
+
+    progressBarBody.parentElement.style.visibility = 'visible';
+
+    let actionProgress = 0;
+
+    actionPgrogressBarInterval = setInterval(() => {
+        if (actionProgress <= 100) {
+            progressBarBody.style.width = `${actionProgress}%`;
+
+            actionProgress += 1;
+        } else if (actionProgress <= 105) {
+            actionProgress += 1;
+        } else {
+            actionProgress = 90;
+        }
+    }, actionDuration / 100);
+}
+
+/**
+ * Clears the action progress bar after the action has been completed or failed, and resets it to 0%.
+ * @param {String} actionName Name of the action with the progress bar.
+ * @returns nothing
+ */
+function clearActionProgressBar(actionName) {
+    clearInterval(actionPgrogressBarInterval);
+
+    const { progressBarBody } = selectActionDurationAndPgrogressBarElement(actionName);
+
+    if (!progressBarBody) {
+        return;
+    }
+
+    progressBarBody.parentElement.style.visibility = 'hidden';
+    progressBarBody.style.width = '0%';
+}
+
+/**
+ * Returns the duration and progress bar HTML element of the specified action.
+ * @param {String} actionName Name of the action
+ * @returns {{actionDuration: Number | null, progressBarBody: HTMLElement | null}} Duration and progress bar element of the action
+ */
+function selectActionDurationAndPgrogressBarElement(actionName){
+    switch (actionName) {
+        case "SAND":
+            return {
+                actionDuration,
+                progressBarBody: sandActionProgressBar
+            }
+        case "CLEAN":
+            return {
+                actionDuration,
+                progressBarBody: cleanActionProgressBar
+            }
+        case "GLUE_BOX":
+            return {
+                actionDuration,
+                progressBarBody: glueBoxActionProgressBar
+            }
+        case "GLUE_STAMP":
+            return {
+                actionDuration,
+                progressBarBody: glueStampActionProgressBar
+            }
+        case "ACTION_5":
+            return {
+                actionDuration,
+                progressBarBody: action5ActionProgressBar
+            }
+        case "ACTION_6":
+            return {
+                actionDuration,
+                progressBarBody: action6ActionProgressBar
+            }
+        default:
+            return {
+                actionDuration: null,
+                progressBarBody: null
+            }
+    }
+}
+
+/**
  * Handles the response of the manual action service.
  * 
  * If successful, the action is removed from actions in progress and added to completed actions.
@@ -172,15 +280,16 @@ function handleManualActionCompletion(response) {
 
     const actionElement = selectActionElement(action_name);
 
+    actionsInProgress.delete(action_name);
+
+    clearActionProgressBar(action_name);
+
     if (!success) {
         actionElement.style.backgroundColor = actionFailedRed;
-        actionsInProgress.delete(action_name)
 
-        alert(`${action_name} action failed. Press it again to retry.`);
+        alert(`${action_name.replaceAll("_", " ")} action failed. Press it again to retry.`);
         return;
     }
-
-    actionsInProgress.delete(action_name)
 
     if (!actionElement) {
         return;
@@ -189,6 +298,8 @@ function handleManualActionCompletion(response) {
     performedActions.add(action_name);
 
     actionElement.style.backgroundColor = performedActionGreen;
+
+    clearActionProgressBar(action_name);
 }
 
 /**
