@@ -102,6 +102,9 @@ function parseSensorDataFromROSTopic(sensorDataString) {
  * Given the name of a manual action, call the manual action service with this action
  * @param {*} action_name name of the action to perform
  */
-function sendActionToRobot(action_name) {
-    manual_action_client.callService({ action_name }, handleManualActionCompletion);
+function sendActionToRobot(action_name, request_id) {
+    console.log(action_name, request_id)
+    manual_action_client.callService({ action_name, request_id }, handleManualActionCompletion, (error) => {
+        console.log(error);
+    });
 }

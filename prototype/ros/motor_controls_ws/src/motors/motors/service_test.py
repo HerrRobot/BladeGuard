@@ -31,6 +31,7 @@ class SensorInstallation(Node):
 
         response.success = True
         response.action_name = request.action_name
+        response.response_id = request.request_id
 
         randVal = random.random()
 
@@ -38,6 +39,8 @@ class SensorInstallation(Node):
 
         if randVal < 0.2:
             response.success = False
+        elif randVal < 0.4:
+            time.sleep(15)
 
         return response
 

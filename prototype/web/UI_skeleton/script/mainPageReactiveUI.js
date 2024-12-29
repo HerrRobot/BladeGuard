@@ -10,12 +10,17 @@ const opacityEnabled = 1;
 const opacityDisabled = 0.5;
 
 const actionDuration = 5000; //ms
+const actionTimeoutTolerance = 3;
 
 const drivingKeys = new Set(['w', 'a', 's', 'd']);
 const performedActions = new Set();
 const actionsInProgress = new Set();
+const actionNames = new Set(['SAND', 'CLEAN', 'GLUE_BOX', 'GLUE_STAMP', 'ACTION_5', 'ACTION_6']);
+
+const actionResponseMap = new Map();
 
 let actionPgrogressBarInterval;
+let actionTimeoutObject;
 
 const WASDKeysContainer = document.getElementById('wasd_container');
 const controlPanelActionsContainer = document.getElementById('control_panel_actions');
@@ -46,6 +51,17 @@ let isLogVisible = true;
 let isSensorsVisible = true;
 
 let isAutonomousOperation = true;
+
+setup();
+
+/**
+ * Initialise the map of action names to their next response ID
+ */
+function setup() {
+    actionNames.forEach((elem) => {
+        actionResponseMap.set(elem, 0);
+    })
+}
 
 /**
  * Make WASD keys darker when pressed
@@ -142,9 +158,36 @@ function handleActionPress(actionName) {
     actionElement.style.color = 'white';
     actionElement.style.opacity = 0.5;
 
-    sendActionToRobot(actionName);
+    sendActionToRobot(actionName, actionResponseMap.get(actionName));
+
+    setActionTimeout(actionName);
 
     startActionProgressBar(actionName);
+}
+
+/**
+ * Starts a timeout for a manual action. If the time runs out before getting a response from the robot, the action is assumed to have failed.
+ * @param {String} actionName the name of the action 
+ * @returns nothing
+ */
+function setActionTimeout(actionName) {
+    const { actionDuration } = selectActionDurationAndPgrogressBarElement(actionName);
+
+    if (actionDuration < 0) {
+        return;
+    }
+
+    actionTimeoutObject = setTimeout(() => {
+        actionResponseMap.set(actionName, actionResponseMap.get(actionName) + 1);
+
+        const actionElement = selectActionElement(actionName);
+
+        actionsInProgress.delete(actionName);
+        clearActionProgressBar(actionName);
+        actionElement.style.backgroundColor = actionFailedRed;
+
+        alert(`The robot took too long to perform the ${actionName.replaceAll("_", " ")} action. It probably failed. Press it again to retry.`);
+    }, actionDuration * actionTimeoutTolerance);
 }
 
 /**
@@ -223,7 +266,7 @@ function clearActionProgressBar(actionName) {
 /**
  * Returns the duration and progress bar HTML element of the specified action.
  * @param {String} actionName Name of the action
- * @returns {{actionDuration: Number | null, progressBarBody: HTMLElement | null}} Duration and progress bar element of the action
+ * @returns {{actionDuration: Number, progressBarBody: HTMLElement | null}} Duration and progress bar element of the action
  */
 function selectActionDurationAndPgrogressBarElement(actionName){
     switch (actionName) {
@@ -259,7 +302,7 @@ function selectActionDurationAndPgrogressBarElement(actionName){
             }
         default:
             return {
-                actionDuration: null,
+                actionDuration: -1,
                 progressBarBody: null
             }
     }
@@ -276,7 +319,15 @@ function selectActionDurationAndPgrogressBarElement(actionName){
 function handleManualActionCompletion(response) {
     console.log(response);
 
-    const {success, action_name} = response;
+    const {success, action_name, response_id} = response;
+
+    const currentResponseId = actionResponseMap.get(action_name);
+
+    if(currentResponseId !== response_id) {
+        return;
+    }
+
+    clearTimeout(actionTimeoutObject);
 
     const actionElement = selectActionElement(action_name);
 
@@ -300,6 +351,8 @@ function handleManualActionCompletion(response) {
     actionElement.style.backgroundColor = performedActionGreen;
 
     clearActionProgressBar(action_name);
+
+    actionResponseMap.set(action_name, actionResponseMap.get(action_name) + 1)
 }
 
 /**

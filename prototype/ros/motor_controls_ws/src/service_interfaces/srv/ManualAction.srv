@@ -1,4 +1,6 @@
 string action_name
+int64 request_id
 ---
 string action_name
+int64 response_id
 bool success
