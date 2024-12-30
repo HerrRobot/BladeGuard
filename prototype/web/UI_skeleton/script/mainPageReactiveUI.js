@@ -95,6 +95,7 @@ function handleManualControlToggle() {
         toggleWASDKeysVisibility();
         toggleManualActionsVisualCues();
         disableManualControlToggleCheckbox();
+        clearInterval(actionPgrogressBarInterval);
     }
 }
 
@@ -148,6 +149,21 @@ function handleActionPress(actionName) {
 
     actionsInProgress.add(actionName);
 
+    setActionStartedVisualCues(actionName);
+
+    sendActionToRobot(actionName, actionResponseMap.get(actionName));
+
+    setActionTimeout(actionName);
+
+    startActionProgressBar(actionName);
+}
+
+/**
+ * Set the visual cues for an action which was started
+ * @param {String} actionName name of the action which was started
+ * @returns 
+ */
+function setActionStartedVisualCues(actionName) {
     const actionElement = selectActionElement(actionName);
 
     if (!actionElement) {
@@ -157,12 +173,6 @@ function handleActionPress(actionName) {
     actionElement.style.backgroundColor = actionBeingPerformedColour;
     actionElement.style.color = 'white';
     actionElement.style.opacity = 0.5;
-
-    sendActionToRobot(actionName, actionResponseMap.get(actionName));
-
-    setActionTimeout(actionName);
-
-    startActionProgressBar(actionName);
 }
 
 /**
@@ -353,6 +363,100 @@ function handleManualActionCompletion(response) {
     clearActionProgressBar(action_name);
 
     actionResponseMap.set(action_name, actionResponseMap.get(action_name) + 1)
+}
+
+/**
+ * Update the status of an action based on incoming logger messages
+ * @param {String} message incomming message from the logger
+ * @returns nothing
+ */
+function updateActionStatus(message) {
+    if (!isAutonomousOperation) {
+        return;
+    }
+
+    const { actionName, status } = selectActionNameAndStatusFromLogMessage(message);
+
+    if (!actionName || !status) {
+        return;
+    }
+
+    if (status === "STARTED") {
+        setActionStartedVisualCues(actionName)
+        startActionProgressBar(actionName);
+    } else if (status === "COMPLETED") {
+        performedActions.add(actionName);
+        const element = selectActionElement(actionName);
+        console.log(element);
+        element.style.backgroundColor = performedActionGreen;
+        clearActionProgressBar(actionName);
+    } else if (status === "FAILED") {
+        selectActionElement(actionName).style.backgroundColor.actionFailedRed;
+        clearActionProgressBar(actionName);
+    }
+}
+
+/**
+ * Get the name of the action and its completion status (STARTED, COMPLETED, FAILED) based on a logger message
+ * @param {String} message logger message
+ * @returns {{actionName: String, status: String}} name of the action and its status
+ */
+function selectActionNameAndStatusFromLogMessage(message) {
+    switch (message) {
+        case "SENSOR - STARTED SANDING":
+            return {
+                actionName: "SAND",
+                status: "STARTED"
+            }
+        
+        case "SENSOR - FINISHED SANDING":
+            return {
+                actionName: "SAND",
+                status: "COMPLETED"
+            }
+
+        case "SENSOR - STARTED CLEANING":
+            return {
+                actionName: "CLEAN",
+                status: "STARTED"
+            }
+
+        case "SENSOR - FINISHED CLEANING":
+            return {
+                actionName: "CLEAN",
+                status: "COMPLETED"
+            }
+
+        case "SENSOR - STARTED GLUING":
+            return {
+                actionName: "GLUE_BOX",
+                status: "STARTED"
+            }
+
+        case "SENSOR - FINISHED GLUING":
+            return {
+                actionName: "GLUE_BOX",
+                status: "COMPLETED"
+            }
+
+        case "CABLE - DISPENSING GLUE":
+            return {
+                actionName: "GLUE_STAMP",
+                status: "STARTED"
+            }
+
+        case "CABLE - PRESSING DOWN":
+            return {
+                actionName: "GLUE_STAMP",
+                status: "COMPLETED"
+            }
+    
+        default:
+            return {
+                actionName: null,
+                status: null
+            };
+    }
 }
 
 /**

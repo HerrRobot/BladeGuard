@@ -68,7 +68,8 @@ const log_message_server = new ROSLIB.Service({
 // advertise the service (switch from client to server)
 // when the service is called, display the message in the logger
 log_message_server.advertise((request, response) => {
-    addEntryToLog(`${request.timestamp}; ${request.message}`)
+    addEntryToLog(`${request.timestamp}; ${request.message}`);
+    updateActionStatus(request.message);
 
     return true // needs to be a boolean, otherwise rosbridge complains
 })
