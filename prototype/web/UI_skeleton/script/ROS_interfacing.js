@@ -83,6 +83,23 @@ const manual_action_client = new ROSLIB.Service({
     serviceType: 'service_interfaces/ManualAction'
 })
 
+const manual_driving_topic = new ROSLIB.Topic({
+    ros,
+    name: '/manual_driving',
+    messageType: 'std_msgs/String'
+});
+
+manual_driving_topic.advertise();
+
+/**
+ * Published the given message to the /manual_driving topic
+ * @param {String} message 
+ */
+function publishToManualDrivingTopic(message) {
+    const rosMessage = {data: message}
+    manual_driving_topic.publish(rosMessage);
+}
+
 /**
  * Parse the input string from the /distance_sensors topic and return an object containing the individual sensor values as strings,
  * rounded to two decimal places.
