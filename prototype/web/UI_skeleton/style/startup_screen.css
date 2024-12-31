@@ -1,0 +1,125 @@
+#startup_main_div {
+    /* background-color: blue; */
+    height: 98vh;
+    display: flex;
+
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.startup_main_contents {
+    /* background-color: aquamarine; */
+
+    height: 100%;
+    width: 49.5%;
+}
+
+#startup_main_left {
+    display: flex;
+
+    flex-direction: column;
+}
+
+#startup_main_left * {
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+#target_depth_input {
+    width: 25%;
+}
+
+.operation_mode_radio_container {
+    /* background-color: brown; */
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: row;
+    justify-content: start;
+}
+
+.operation_mode_radio_container * {
+    margin-top: 1% !important;
+}
+
+#start_operation_button {
+    width: 20%;
+    height: 5vh;
+    border-radius: 20px;
+    
+    color: white;
+    background-color: #304166;
+
+    /* border-width: 2px;
+    border-color: black;
+    border-style: solid; */
+
+    box-shadow: -2px 2px 2px black;
+
+    font-size: 100%;
+}
+
+#start_operation_button:hover{
+    cursor: pointer;
+}
+
+#startup_camera_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    height: 55%;
+    width: 100%;
+}
+
+.camera_feed {
+    display: block;
+    
+    height: 100%;
+    width: 100%;
+    
+    background-color: #304166;
+        
+    margin: 0px;
+}
+
+#sensor_values {
+    width: 60%;
+    height: 78%;
+
+    /* background-color: burlywood; */
+
+    /* visibility: hidden; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#startup_connection_status {
+    width: 30%;
+
+    /* background-color: blueviolet; */
+
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+#startup_connection_status_LED {
+    width: 26px;
+    height: 26px;
+
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 13px;
+    
+    background-color: red;
+}
