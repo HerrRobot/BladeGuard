@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BladeGuard</title>
+    <link rel="stylesheet" href="style/startup.css">
+    <link rel="stylesheet" href="style/startup_screen.css">
+    <link rel="stylesheet" href="style/switch.css">
+    <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
+<body>
+    <div id="main_div">
+        <div class="main_div_contents" id="cameras_div">
+            <!-- <img class="camera_feed" id="camera_feed_left" src="https://192.168.0.2:5000/video_feed" alt="Video Feed 1">
+            <img class="camera_feed" id="camera_feed_right" src="https://192.168.0.2:5000/video_feed" alt="Video Feed 2"> -->
+
+            <img class="camera_feed" id="camera_feed_left" src="" alt="Video Feed 1">
+            <img class="camera_feed" id="camera_feed_right" src="" alt="Video Feed 2">
+        </div>
+        <div class="main_div_contents" id="control_panel_div">
+            <div class="control_panel_contents" id="control_panel_top">
+                <div class="control_panel_top_contents" id="control_panel_left">
+                    <div class="manual_controls_and_wasd" id="manual_controls_enable_and_start_stop">
+                        <div class="ctrl_pan_left_contents" id="manual_control_enable">
+                            <p id="manual_control_label">Manual control (Off)</p>
+                            <label id="manual_control_toggle_checkbox_wrapper" class="switch">
+                                <input checked="false" id="manual_control_toggle_checkbox" onclick="handleManualControlToggle()" type="checkbox">
+                                <span id="manual_control_toggle_checkbox_span" class="slider round"></span>
+                            </label>
+                        </div>
+                                            
+                        <div class="ctrl_pan_left_contents" id="start_stop_buttons">
+                            <button class="stop_start_button" id="play_button"><img class="start_stop_button_img" src="img/triangle_button.png"
+                                    alt="play button"></button>
+                            <button class="stop_start_button" id="stop_button"><img class="start_stop_button_img" src="img/rectangle_button.png"
+                                    alt="stop button"></button>
+                        </div>
+                    </div>
+                    <div class="manual_controls_and_wasd" id="wasd_container">
+                        <div id="wasd_top" class="wasd_elements_container">
+                            <div class="wasd_div_individual">
+                                <div id="w_key_wrapper" class="wasd_square_div">
+                                    <p class="wasd_p">W</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="wasd_bottom" class="wasd_elements_container">
+                            <div class="wasd_div_individual">
+                                <div id="a_key_wrapper" class="wasd_square_div">
+                                    <p class="wasd_p">A</p>
+                                </div>
+                            </div>
+                            <div class="wasd_div_individual">
+                                <div id="s_key_wrapper" class="wasd_square_div">
+                                    <p class="wasd_p">S</p>
+                                </div>
+                            </div>
+                            <div class="wasd_div_individual">
+                                <div id="d_key_wrapper" class="wasd_square_div">
+                                    <p class="wasd_p">D</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control_panel_top_contents" id="control_panel_right">
+                    <div id="log_div">
+                        <div id="log_content_div">
+                            <p><strong>Event Log</strong></p>
+                            <p>> 12:51:32; Surface prepared;</p>
+                            <p>> 12:51:36; Started dispensing glue;</p>
+                            <p>> 12:52:11; Lowering the box;</p>
+                            <p>> 12:53:41; Finished installing box;</p>
+                            <p>> 12:54:26; Installing clamp #1;</p>
+                            <p>> 12:54:56; Installing clamp #2;</p>
+                            <p>> 12:55:16; Installing clamp #3;</p>
+                        </div>
+                    </div>
+                    <div id="buttons_and_sensors">
+                        <div id="log_sensor_buttons">
+                            <div class="log_sensors_button_group">
+                                <label for="log_enable_button"><strong>Log</strong></label>
+                                <br>
+                                <button onclick="handleLogButtonPress()" id="log_enable_button" class="log_sensor_button">///</button>
+                            </div>
+
+                            <div class="log_sensors_button_group">
+                                <label for="sensors_enable_button"><strong>Sensors</strong></label>
+                                <br>
+                                <button onclick="hanldeSensorsButtonPress()" id="sensors_enable_button" class="log_sensor_button">///</button>
+                            </div>
+                        </div>
+
+                        <div id="sensor_values">
+                            <p id="distance_sensor_main_label">Distances:</p>
+                            <div class="sensor_values_container">
+                                <p>Right wall: </p>
+                                <p>Left wall: </p>
+                                <p>Ceiling: </p>
+                                <p>Root: </p>
+                            </div>
+
+                            <div class="sensor_values_container">
+                                <p id="right_wall_sensor_value">10.5cm</p>
+                                <p id="left_wall_sensor_value">11.0cm</p>
+                                <p id="ceiling_sensor_value">7.2cm</p>
+                                <p id="root_sensor_value">4.1m</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="control_panel_contents" id="control_panel_bottom">
+                <div class="control_panel_bottom_contents" id="control_panel_actions">
+                    <div id="sand_action" onclick="handleActionPress('SAND')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">SAND</p>
+                        <div class="action_progress_bar_container">
+                            <div id="sand_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                    <div id="clean_action" onclick="handleActionPress('CLEAN')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">CLEAN</p>
+                        <div class="action_progress_bar_container">
+                            <div id="clean_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                    <div id="glue_box_action" onclick="handleActionPress('GLUE_BOX')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">GLUE BOX</p>
+                        <div class="action_progress_bar_container">
+                            <div id="glue_box_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                    <div id="glue_stamp_action" onclick="handleActionPress('GLUE_STAMP')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">GLUE STAMP</p>
+                        <div class="action_progress_bar_container">
+                            <div id="glue_stamp_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                    <div id="action_5_action" onclick="handleActionPress('ACTION_5')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">ACTION 5</p>
+                        <div class="action_progress_bar_container">
+                            <div id="action_5_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                    <div id="action_6_action" onclick="handleActionPress('ACTION_6')" class="ctrl_pan_action ctrl_pan_action_disable">
+                        <p class="ctrl_action_text">ACTION 6</p>
+                        <div class="action_progress_bar_container">
+                            <div id="action_6_action_progress_bar_body" class="action_progress_bar_body"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control_panel_bottom_contents" id="control_panel_progress">
+                    <div id="progress_bar_inside">
+                        <p class="progress_bar_text" id="progress_bar_label">Progress:</p>
+                        <p class="progress_bar_text" id="progress_bar_percentage"><strong id="progress_bar_percentage_value">1%</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="startup_main_div">
+        <div id="startup_main_left" class="startup_main_contents">
+            <label for="target_depth_input">Select target depth:</label>
+            <input min="1" max="33" placeholder="Target depth (meters)" type="number" name="target_depth"
+                id="target_depth_input">
+            <label for="">Select operation mode:</label>
+    
+            <div onclick="selectOperationMode('autonomous')" class="operation_mode_radio_container">
+                <input checked type="radio" id="autonomous_radio_button" class="operation_mode_radio">
+                <label for="autonomous_radio_button">Autonomous</label>
+            </div>
+    
+            <div onclick="selectOperationMode('manual')" class="operation_mode_radio_container">
+                <input type="radio" id="manual_radio_button" class="operation_mode_radio">
+                <label for="manual_radio_button">Manual</label>
+            </div>
+    
+            <button onclick="handleStartRobotButtonPress()" id="start_operation_button">START</button>
+        </div>
+    
+        <div id="startup_main_right" class="startup_main_contents">
+            <div class="startup_right_content" id="startup_camera_div">
+                <img class="startup_camera_feed" id="startup_camera_feed_left" src="" alt="Video Feed 1">
+            </div>
+            <div class="startup_right_content" id="startup_info_div">
+                <div class="startup_info_content" id="startup_sensor_values">
+                    <div class="startup_sensor_values_container">
+                        <p>Right wall: </p>
+                        <p>Left wall: </p>
+                        <p>Ceiling: </p>
+                        <p>Root: </p>
+                    </div>
+    
+                    <div class="startup_sensor_values_container">
+                        <p id="startup_right_wall_sensor_value">-</p>
+                        <p id="startup_left_wall_sensor_value">-</p>
+                        <p id="startup_ceiling_sensor_value">-</p>
+                        <p id="startup_root_sensor_value">-</p>
+                    </div>
+                </div>
+    
+                <div id="startup_connection_status" class="startup_info_content">
+                    <div id="startup_connection_status_LED"></div>
+                    <p id="startup_connection_sttaus_text"><strong id="startup_connection_status_strong">Disconnected</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script/mainPageReactiveUI.js"></script>
+    <script src="script/displayingData.js"></script>
+    <script src="script/roslibjsScript.js"></script>
+    <script src="script/ROS_interfacing.js"></script>
+    <script src="script/manual_driving.js"></script>
+    <script src="script/startupPageReactive.js"></script>
+
+    <!-- <script src="script/testScript.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../style/startup_screen.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="startup_main_div">
+        <div id="startup_main_left" class="startup_main_contents">
+            <label for="target_depth_input">Select target depth:</label>
+            <input min="1" max="33" placeholder="Target depth (meters)" type="number" name="target_depth" id="target_depth_input">
+            <label for="">Select operation mode:</label>
+
+            <div class="operation_mode_radio_container">
+                <input checked type="radio" id="autonomous_radio_button" class="operation_mode_radio">
+                <label for="autonomous_radio_button">Autonomous</label>
+            </div>
+
+            <div class="operation_mode_radio_container">
+                <input type="radio" id="manual_radio_button" class="operation_mode_radio">
+                <label for="manual_radio_button">Manual</label>
+            </div>
+
+            <button id="start_operation_button">START</button>
+        </div>
+
+        <div id="startup_main_right" class="startup_main_contents">
+            <div class="startup_right_content" id="startup_camera_div">
+                <img class="startup_camera_feed" id="startup_camera_feed_left" src="" alt="Video Feed 1">
+            </div>
+            <div class="startup_right_content" id="startup_info_div">
+                <div class="startup_info_content" id="startup_sensor_values">
+                    <div class="startup_sensor_values_container">
+                        <p>Right wall: </p>
+                        <p>Left wall: </p>
+                        <p>Ceiling: </p>
+                        <p>Root: </p>
+                    </div>
+                        
+                    <div class="startup_sensor_values_container">
+                        <p id="startup_right_wall_sensor_value">10.5cm</p>
+                        <p id="startup_left_wall_sensor_value">11.0cm</p>
+                        <p id="startup_ceiling_sensor_value">7.2cm</p>
+                        <p id="startup_root_sensor_value">4.1m</p>
+                    </div>
+                </div>
+
+                <div id="startup_connection_status" class="startup_info_content">
+                    <div id="startup_connection_status_LED"></div>
+                    <p id="startup_connection_sttaus_text">Disconnected</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
