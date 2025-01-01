@@ -74,7 +74,7 @@
     width: 100%;
 }
 
-.camera_feed {
+.startup_camera_feed {
     display: block;
     
     height: 100%;
@@ -85,7 +85,7 @@
     margin: 0px;
 }
 
-#sensor_values {
+#startup_sensor_values {
     width: 60%;
     height: 78%;
 
@@ -122,4 +122,9 @@
     border-radius: 13px;
     
     background-color: red;
+}
+
+#startup_sensor_values {
+    margin-top: 2%;
+    margin-bottom: 2%;
 }

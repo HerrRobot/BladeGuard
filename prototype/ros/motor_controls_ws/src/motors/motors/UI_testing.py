@@ -61,6 +61,8 @@ class UI_TestingNode(Node):
         request.message = f"Log message #{self.messageID}"
         self.messageID += 1
 
+        self.publishSensorData()
+
         self.client.call_async(request)
 
         

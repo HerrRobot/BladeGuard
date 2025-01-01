@@ -1,10 +1,12 @@
 #main_div {
     /* background-color: aquamarine; */
     height: 98vh;
-    display: flex;
+    /* display: flex; */
         
     justify-content: space-between;
     flex-direction: column;
+
+    display: none;
 }
 
 .main_div_contents {

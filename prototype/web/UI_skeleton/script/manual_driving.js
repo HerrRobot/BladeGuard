@@ -30,80 +30,85 @@ let steeringNegationInterval = null;
 //     brakingMode = "BR";
 // }
 
-document.addEventListener('keydown', (e) => {
-    if (activeKeys.has(e.key) || isAutonomousOperation) {
-        return;
-    }
-
-    activeKeys.add(e.key);
-
-    if (e.key === 'w') {
-        if (activeKeys.has('s')) {
-            activeKeys.delete('w');
+/**
+ * Adds the event listeners needed for manual driving
+ */
+function addManualDrivingEventListeners() {
+    document.addEventListener('keydown', (e) => {
+        if (activeKeys.has(e.key) || isAutonomousOperation) {
             return;
         }
 
-        accelerateForwards(forwardSpeedIncrement, forwardAccelerationIntervalDuration);
-    } else if (e.key === 'a') {
-        if (activeKeys.has('d')) {
-            activeKeys.delete('a');
+        activeKeys.add(e.key);
+
+        if (e.key === 'w') {
+            if (activeKeys.has('s')) {
+                activeKeys.delete('w');
+                return;
+            }
+
+            accelerateForwards(forwardSpeedIncrement, forwardAccelerationIntervalDuration);
+        } else if (e.key === 'a') {
+            if (activeKeys.has('d')) {
+                activeKeys.delete('a');
+                return;
+            }
+
+            if (steeringNegationInterval !== null) {
+                clearInterval(steeringNegationInterval);
+            }
+
+            accelerateSideways(-steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
+        } else if (e.key === 's') {
+            if (activeKeys.has('w')) {
+                activeKeys.delete('s');
+                return;
+            }
+
+            accelerateForwards(-forwardSpeedIncrement, forwardAccelerationIntervalDuration);
+        } else if (e.key === 'd') {
+            if (activeKeys.has('a')) {
+                activeKeys.delete('d');
+                return;
+            }
+
+            if (steeringNegationInterval !== null) {
+                clearInterval(steeringNegationInterval);
+            }
+
+            accelerateSideways(steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
+        } else {
+            return;
+        }
+    })
+
+    document.addEventListener('keyup', (e) => {
+        if (isAutonomousOperation || !activeKeys.has(e.key)) {
             return;
         }
 
-        if (steeringNegationInterval !== null){
-            clearInterval(steeringNegationInterval);
-        }
+        activeKeys.delete(e.key);
 
-        accelerateSideways(-steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
-    } else if (e.key === 's') {
-        if (activeKeys.has('w')) {
-            activeKeys.delete('s');
+        if (e.key === 'w' || e.key === 's') {
+            clearInterval(forwardInterval);
+
+            currentLeftWheelSpeed.forward = 0;
+            currentRightWheelSpeed.forward = 0;
+
+            sendManualDrivingCommandToRobot();
+        } else if (e.key === 'a') {
+            clearInterval(sidewaysInterval);
+
+            graduallyNegateSteering(steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
+        } else if (e.key === 'd') {
+            clearInterval(sidewaysInterval);
+
+            graduallyNegateSteering(-steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
+        } else {
             return;
         }
-
-        accelerateForwards(-forwardSpeedIncrement, forwardAccelerationIntervalDuration);
-    } else if (e.key === 'd') {
-        if (activeKeys.has('a')) {
-            activeKeys.delete('d');
-            return;
-        }
-
-        if (steeringNegationInterval !== null) {
-            clearInterval(steeringNegationInterval);
-        }
-
-        accelerateSideways(steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
-    } else {
-        return;
-    }
-})
-
-document.addEventListener('keyup', (e) => {
-    if(isAutonomousOperation || !activeKeys.has(e.key)) {
-        return;
-    }
-
-    activeKeys.delete(e.key);
-
-    if (e.key === 'w' || e.key === 's') {
-        clearInterval(forwardInterval);
-
-        currentLeftWheelSpeed.forward = 0;
-        currentRightWheelSpeed.forward = 0;
-
-        sendManualDrivingCommandToRobot();
-    } else if (e.key === 'a') {
-        clearInterval(sidewaysInterval);
-
-        graduallyNegateSteering(steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
-    } else if (e.key === 'd') {
-        clearInterval(sidewaysInterval);
-
-        graduallyNegateSteering(-steeringSpeedIncrement, sidewaysAccelerationIntervalDuration);
-    } else {
-        return;
-    }
-})
+    })
+}
 
 /**
  * Stops all wheel motors using the arduino and prevents further wheel commands from being sent.
@@ -118,8 +123,6 @@ function emergencyStop() {
 
     publishToManualDrivingTopic(stopLeftMotorsMessage);
     publishToManualDrivingTopic(stopRightMotorsMessage);
-
-    document.getElementById("emergency_heading").setAttribute("style", "display: block;")
 }
 
 /**

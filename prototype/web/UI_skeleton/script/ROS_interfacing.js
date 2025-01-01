@@ -4,6 +4,10 @@ const rosbridgeServerPort = '9090';
 const localhostIPAddress = '127.0.0.1';
 const localhostPort = '9090';
 
+let isConnectedToRosbridge = false;
+
+const ROSConnectionRetryPeriod = 10000; // 10s = 10000ms
+
 // use for testing, when the rosbridge server is on the local machine
 const localhostRosbridgeURL = `ws://${localhostIPAddress}:${localhostPort}`
 // use in production/testing, when the rosbridge server is on the Raspberry Pi
@@ -15,17 +19,28 @@ const ros = new ROSLIB.Ros({ url: localhostRosbridgeURL });
 // handle successful connection
 ros.on("connection", () => {
     console.log(`Successfully connected to rosbridge server at ${raspberryPiRosBridgeURL}`);
+
+    isConnectedToRosbridge = true;
+    setConnectionIndicatorOnStartup(true);
 });
 
 // handle error in connection
 ros.on("error", (error) => {
     console.log(`errored out rosbridge connection at ${raspberryPiRosBridgeURL}: (${error})`);
-    alert(`errored out rosbridge connection at ${raspberryPiRosBridgeURL}: (${error})`);
+    // alert(`errored out rosbridge connection at ${raspberryPiRosBridgeURL}: (${error})`);
+    setTimeout(() => {
+        ros.connect(localhostRosbridgeURL);
+    }, ROSConnectionRetryPeriod);
+
+    isConnectedToRosbridge = false;
+    setConnectionIndicatorOnStartup(false);
 });
 
 // handle closing connection
 ros.on("close", () => {
-    alert(`Closed rosbridge server connection at ${raspberryPiRosBridgeURL}`);
+    // alert(`Closed rosbridge server connection at ${raspberryPiRosBridgeURL}`);
+    isConnectedToRosbridge = false;
+    setConnectionIndicatorOnStartup(false);
 });
 
 // topic for reading values of the four distance sensors
@@ -40,6 +55,7 @@ distance_sensors_topic.subscribe((message) => {
     const { left, right, ceiling, root } = parseSensorDataFromROSTopic(message.data);
 
     displaySensorValues(left, right, ceiling, root);
+    displaySensorValuesStartupPage(left, right, ceiling, root);
 });
 
 // topic for receiving messages for the logger
